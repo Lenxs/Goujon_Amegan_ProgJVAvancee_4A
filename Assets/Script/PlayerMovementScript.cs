@@ -5,27 +5,28 @@ using UnityEngine;
 public class PlayerMovementScript : MonoBehaviour
 {
 
+    //Horizontal movement
     [SerializeField]
     private float speed;
-    [SerializeField]
-    private float initJumpSpeed;
+    
+    
+    //Jump
+    [SerializeField]private float initJumpSpeed;
     private float currentJumpSpeed;
     [SerializeField]private float speedLossSecond;
+    private bool jumping;
+    [SerializeField] private float jumpTime;
+    private float jumpTimer = 0;
+    private Vector3 gravity = new Vector3(0, -20, 0);
 
+    //Input
     [SerializeField]
     private string inputY;
     [SerializeField]
     private string inputX;
 
-    [SerializeField] private LayerMask FloorLayerMask;
-
-    private bool jumping;
-
-    [SerializeField] private float jumpTime;
-    private float jumpTimer = 0;
-
     private CharacterController controller;
-    private Vector3 gravity = new Vector3(0, -20, 0);
+    
 
     void Start()
     {
@@ -51,13 +52,11 @@ public class PlayerMovementScript : MonoBehaviour
 
             move += new Vector3(0f, currentJumpSpeed, 0f) * Time.deltaTime;
 
-            
-
             currentJumpSpeed -= speedLossSecond * Time.deltaTime;
 
             jumping = true;
 
-        }else if(jumping == true)
+        }else if(jumping == true)//Player stopped jumping
         {
             jumping = false;
             Debug.Log("End jump");
