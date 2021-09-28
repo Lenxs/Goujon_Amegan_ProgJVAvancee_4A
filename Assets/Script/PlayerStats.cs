@@ -28,4 +28,9 @@ public class PlayerStats : MonoBehaviour
         currentAmmo--;
     }
 
+    public void GainAmmo()
+    {
+        currentAmmo++;
+    }
+
 }

@@ -128,3 +128,11 @@ MonoBehaviour:
   PlayerMask:
     serializedVersion: 2
     m_Bits: 512
+  BallMask:
+    serializedVersion: 2
+    m_Bits: 256
+  OtherMask:
+    serializedVersion: 2
+    m_Bits: 192
+  gameManagerInstance: {fileID: 0}
+  ammoPf: {fileID: 6997896367249906395, guid: 4208a1522ccac7c4bb3ec3b32fbf1105, type: 3}

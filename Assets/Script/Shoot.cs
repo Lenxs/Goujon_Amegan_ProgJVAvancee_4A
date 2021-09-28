@@ -9,11 +9,13 @@ public class Shoot : MonoBehaviour
     [SerializeField] private Transform spawnBullet;
     [SerializeField] private float speedBullet = 7f;
     [SerializeField] private Player Owner;
+    [SerializeField] PlayerStats stats;
 
 
     private void Start()
     {
         checkOwner();
+        stats = GetComponent<PlayerStats>();
                
     }
 
@@ -37,5 +39,6 @@ public class Shoot : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, spawnBullet.position, Quaternion.identity);
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.velocity = transform.forward * speedBullet;
+        stats.LostAmmo();
     }
 }

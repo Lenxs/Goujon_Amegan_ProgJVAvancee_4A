@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] LayerMask PlayerMask;
+    [SerializeField] LayerMask PlayerMask,BallMask,OtherMask;
     [SerializeField] GameManager gameManagerInstance;
+    [SerializeField] GameObject ammoPf;
    
 
     private void Start()
@@ -21,6 +22,20 @@ public class Projectile : MonoBehaviour
             gameManagerInstance.PlayerDeath(col.gameObject);
             Destroy(gameObject);
         }
+
+        if (((1 << col.gameObject.layer) & BallMask.value) > 0)
+        {
+            Destroy(gameObject);
+        }
+
+
+        if (((1 << col.gameObject.layer) & OtherMask.value) > 0)
+        {
+            Instantiate(ammoPf, this.gameObject.transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
         
+
+
     }
 }
