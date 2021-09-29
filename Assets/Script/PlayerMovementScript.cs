@@ -8,16 +8,16 @@ public class PlayerMovementScript : MonoBehaviour
     //Horizontal movement
     [SerializeField]
     private float speed;
-    
-    
+
+
     //Jump
-    [SerializeField]private float initJumpSpeed;
+    [SerializeField] private float initJumpSpeed;
     private float currentJumpSpeed;
-    [SerializeField]private float speedLossSecond;
+    [SerializeField] private float speedLossSecond;
     private bool jumping;
     [SerializeField] private float jumpTime;
     private float jumpTimer = 0;
-    private Vector3 gravity = new Vector3(0, -20, 0);
+    [SerializeField] private Vector3 gravity = new Vector3(0, -20, 0);
 
     //Input
     [SerializeField]
@@ -26,6 +26,8 @@ public class PlayerMovementScript : MonoBehaviour
     private string inputX;
 
     private CharacterController controller;
+
+    [SerializeField] Animator charAnimator;
     
 
     void Start()
@@ -56,6 +58,9 @@ public class PlayerMovementScript : MonoBehaviour
 
             jumping = true;
 
+            //Change animation
+            charAnimator.SetBool("Jump", true);
+
         }else if(jumping == true)//Player stopped jumping
         {
             jumping = false;
@@ -78,14 +83,28 @@ public class PlayerMovementScript : MonoBehaviour
         if(Input.GetAxis(inputX) > 0)
         {
             move += new Vector3(0f, 0f, speed) * Time.deltaTime;
-        }else if(Input.GetAxis(inputX) < 0){
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        else if(Input.GetAxis(inputX) < 0){
             move += new Vector3(0f, 0f, -speed) * Time.deltaTime;
+            transform.eulerAngles = new Vector3(0, 180, 0);
         }
 
         //Gravity
         if(controller.isGrounded == false)
         {
             applyGravity = gravity * Time.deltaTime;
+
+            //Change animation
+            charAnimator.SetBool("Jump", false);
+        }
+
+        //Set run animation
+        if(move.x != 0)
+        {
+            charAnimator.SetBool("Run", true);
+        }else{
+            charAnimator.SetBool("Run", false);
         }
 
         controller.Move(move + applyGravity);
