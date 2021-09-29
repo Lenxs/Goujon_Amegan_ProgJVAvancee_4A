@@ -22,9 +22,19 @@ public class PlayerMovementScripts : MonoBehaviour
     bool isGrounded;
     bool canShoot =true;
 
+    KeyCode L, R,U;
+    float doubleTapTime;
+    int side;
+    [SerializeField] string dashInput;
+
+    [SerializeField] float dashSpeed;
+    [SerializeField] float dashCount;
+    [SerializeField] float startDashCount;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        dashCount = startDashCount;
         checkOwner();
     }
 
@@ -64,6 +74,88 @@ public class PlayerMovementScripts : MonoBehaviour
         if (Input.GetButtonDown(fire)&& stats.GetAmmo()>0&&canShoot==true)
         {
             StartCoroutine(Shoot());
+        }
+
+        if (side==0)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (doubleTapTime > Time.time && L == KeyCode.Q)
+                {
+                    Debug.Log("dash");
+                    side = 1;
+                }
+                else
+                {
+                    doubleTapTime = Time.time + 0.5f;
+                }
+                L = KeyCode.Q;
+            }
+
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                if (doubleTapTime > Time.time && R == KeyCode.D)
+                {
+                    Debug.Log("dash");
+                    side = 2;
+                }
+                else
+                {
+                    doubleTapTime = Time.time + 0.5f;
+                }
+                R = KeyCode.D;
+            }
+            /*if (Input.GetKeyDown(KeyCode.Z))
+            {
+                if (doubleTapTime > Time.time && U == KeyCode.Z)
+                {
+                    Debug.Log("dash Up");
+                    side = 3;
+                }
+                else
+                {
+                    doubleTapTime = Time.time + 0.5f;
+                }
+                U = KeyCode.Z;
+            }*/
+
+            //if (isTap)
+            //{
+            //    t1 = Time.time;
+            //    isTap = false;
+            //    if(t1-t2 < 0.2f)
+            //    {
+            //        Debug.Log("dash");
+            //    }
+            //}
+        }
+        else
+        {
+            if (dashCount <= 0)
+            {
+                side = 0;
+                dashCount = startDashCount;
+                rb.velocity = Vector3.zero;
+            }
+            else
+            {
+                dashCount -= Time.deltaTime;
+                if (side == 1)
+                {
+                    rb.velocity = Vector3.back * dashSpeed;
+                }
+                else if (side == 2)
+                {
+                    rb.velocity = Vector3.forward * dashSpeed;
+                }
+                /*else if (side == 3)
+                {
+                    rb.velocity = Vector3.up * dashSpeed;
+                }*/
+            }
+
+            
+
         }
 
     }

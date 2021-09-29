@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float checkDistanceToDodge,checkGround;
     [SerializeField] LayerMask layerToDodge,whatIsGround;
     [SerializeField] float speed,distanceToShoot;
+    [SerializeField] NavMeshAgent agent;
     Rigidbody rb;
     bool isGrounded;
     bool ballProche;
@@ -21,6 +23,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
+        agent.SetDestination(target.position);
         ballProche = Physics.CheckSphere(transform.position, checkDistanceToDodge, layerToDodge);//verifie ball dans un rayon
         isGrounded = Physics.CheckSphere(feetPos.position, checkGround, whatIsGround);
         if (ballProche && isGrounded==true)
