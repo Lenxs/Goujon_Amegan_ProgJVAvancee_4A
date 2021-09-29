@@ -20,6 +20,7 @@ public class PlayerMovementScripts : MonoBehaviour
     [SerializeField] public Player Owner;
     [SerializeField] PlayerStats stats;
     bool isGrounded;
+    bool canShoot =true;
 
     void Start()
     {
@@ -56,24 +57,26 @@ public class PlayerMovementScripts : MonoBehaviour
         }
         if (Input.GetButtonDown(Jump) && isGrounded==true)
         {
-            //rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            
             rb.velocity = Vector3.up * jumpForce;
             isGrounded = false;
         }
-        if (Input.GetButtonDown(fire)&& stats.GetAmmo()>0)
+        if (Input.GetButtonDown(fire)&& stats.GetAmmo()>0&&canShoot==true)
         {
-            Shoot();
+            StartCoroutine(Shoot());
         }
 
     }
 
-    void Shoot()
+    IEnumerator Shoot()
     {
-        
+        canShoot = false;
         GameObject bullet = Instantiate(bulletPrefab, spawnBullet.position, Quaternion.identity);
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.velocity = transform.forward * speedBullet;
         stats.LostAmmo();
+        yield return new WaitForSeconds(1.5f);
+        canShoot = true;
     }
 
     private void OnDrawGizmosSelected()

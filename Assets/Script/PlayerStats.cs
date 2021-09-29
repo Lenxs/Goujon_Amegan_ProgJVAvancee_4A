@@ -5,14 +5,23 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     [SerializeField] int lifeNumber = 8;
+    [SerializeField] int maxLife = 8;
     [SerializeField] int maxAmmo = 5;
     [SerializeField] int currentAmmo = 3;
 
+    private void Start()
+    {
+        lifeNumber = maxLife;
+    }
     public void LostLife()
     {
         lifeNumber = lifeNumber - 1;
     }
 
+    public int GetMaxLife()
+    {
+        return maxLife;
+    }
     public int GetLife()
     {
         return lifeNumber;
@@ -30,7 +39,15 @@ public class PlayerStats : MonoBehaviour
 
     public void GainAmmo()
     {
-        currentAmmo++;
+        if(currentAmmo < maxAmmo)
+        {
+            currentAmmo++;
+        }
+        else
+        {
+            currentAmmo = maxAmmo;
+        }
+        
     }
 
 }

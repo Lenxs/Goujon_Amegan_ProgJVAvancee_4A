@@ -14,12 +14,22 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] Transform[] spawnPoint;
     [SerializeField] PlayerStats p1Stats, p2Stats;
-    [SerializeField] Text endText;
+    [SerializeField] Text endText,ammoP1,ammoP2;
     [SerializeField] Slider lifeP1, lifeP2;
     [SerializeField] GameObject EndGameUI;
 
-
-    
+    private void Start()
+    {
+        lifeP1.maxValue = p1Stats.GetMaxLife();
+        lifeP2.maxValue = p2Stats.GetMaxLife();
+    }
+    private void Update()
+    {
+        ammoP1.text = p1Stats.GetAmmo().ToString() + " / 5";
+        ammoP2.text = p2Stats.GetAmmo().ToString() + " / 5";
+        lifeP1.value = p1Stats.GetLife();
+        lifeP2.value = p2Stats.GetLife();
+    }
 
     public void AmmoGain(GameObject player)
     {
