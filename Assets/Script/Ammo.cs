@@ -16,6 +16,7 @@ public class Ammo : MonoBehaviour
     }
     private void OnCollisionEnter(Collision col)
     {
+        Debug.Log("col");
         if (((1 << col.gameObject.layer) & PlayerMask.value) > 0)
         {
             Debug.Log("ammo++");
