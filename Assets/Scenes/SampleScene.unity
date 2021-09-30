@@ -2578,7 +2578,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3145013877060239756, guid: 80301370260a18a499a879887e192bcc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3145013877060239760, guid: 80301370260a18a499a879887e192bcc, type: 3}
       propertyPath: m_RootOrder
@@ -4050,6 +4050,10 @@ PrefabInstance:
       propertyPath: bulletPrefab
       value: 
       objectReference: {fileID: 96447419}
+    - target: {fileID: 2613296355747506891, guid: 80301370260a18a499a879887e192bcc, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 91d5086fdbf545e49a91fb724ff2189f, type: 2}
     - target: {fileID: 3145013877060239756, guid: 80301370260a18a499a879887e192bcc, type: 3}
       propertyPath: m_Name
       value: P1
