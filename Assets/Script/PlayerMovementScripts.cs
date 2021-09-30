@@ -5,8 +5,7 @@ using UnityEngine;
 public class PlayerMovementScripts : MonoBehaviour
 {
     [SerializeField] string fire = "Fire1";
-    [SerializeField] string MoveR = "Right";
-    [SerializeField] string MoveL = "Left";
+    [SerializeField] string MoveH = "Horizontal";
     [SerializeField] string Jump = "Jump";
     [SerializeField] float speed = 5f;
     [SerializeField] float jumpForce = 10f;
@@ -20,6 +19,7 @@ public class PlayerMovementScripts : MonoBehaviour
     [SerializeField] public Player Owner;
     [SerializeField] PlayerStats stats;
     [SerializeField] Animator bowAnim, charAnim;
+    float move;
     bool isGrounded;
     bool canShoot =true;
 
@@ -44,8 +44,7 @@ public class PlayerMovementScripts : MonoBehaviour
         if (Owner == Player.Player2)
         {
             fire = "Fire2";
-            MoveR = "Right2";
-            MoveL = "Left2";
+            MoveH = "Horizontal2";
             Jump = "Jump2";
         }
     }
@@ -54,27 +53,29 @@ public class PlayerMovementScripts : MonoBehaviour
         canShoot = true;
     }
 
+    private void FixedUpdate()
+    {
+        move = Input.GetAxis(MoveH);
+        rb.velocity = new Vector3(0, 0, move * speed);
+        if (move > 0)
+        {
+            transform.eulerAngles = new Vector3(0, 0, 0);
+        }
+        else if (move < 0)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-
+       
         isGrounded = Physics.CheckSphere(feetPos.position, checkSphere, whatIsGround);
 
-        if (Input.GetButton(MoveR))
-        {
-            transform.eulerAngles = new Vector3(0, 0, 0);
-            transform.position += Vector3.forward * speed * Time.deltaTime;
-            charAnim.SetBool("Run", true);
-        }
-        if (Input.GetButton(MoveL))
-        {
-            transform.eulerAngles = new Vector3(0, 180, 0);
-            transform.position += Vector3.back * speed * Time.deltaTime;
-            charAnim.SetBool("Run", true);
-        }
+        
         if (Input.GetButtonDown(Jump) && isGrounded==true)
         {
-            
+            Debug.Log("jump");
             rb.velocity = Vector3.up * jumpForce;
             isGrounded = false;
         }
@@ -85,6 +86,14 @@ public class PlayerMovementScripts : MonoBehaviour
             StartCoroutine(Shoot());
         }
 
+        if (move != 0)
+        {
+            charAnim.SetBool("Run", true);
+        }
+        else
+        {
+            charAnim.SetBool("Run", false);
+        }
 
         //DASH
         //if (side==0)

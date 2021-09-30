@@ -5,7 +5,6 @@ using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 [RequireComponent(typeof(Shoot))]
-[RequireComponent(typeof(UpdatePosition))]
 public class PlayerMovementScript : MonoBehaviour
 {
 
@@ -49,10 +48,10 @@ public class PlayerMovementScript : MonoBehaviour
     void Update()
     {
 
-        if (transform.position.y < 0.25)
-        {
-            transform.position = new Vector3(0, 0.5f, transform.position.z);
-        }
+        //if (transform.position.y < 0.25)
+        //{
+        //    transform.position = new Vector3(0, 0.5f, transform.position.z);
+        //}
 
 
         Vector3 move = Vector3.zero;

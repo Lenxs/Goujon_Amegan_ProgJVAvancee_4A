@@ -66,24 +66,6 @@ public class RandomAI : MonoBehaviour
                 {
                     StartCoroutine(Shoot());
                 }
-                else
-                {
-
-                    //Transform ammo = GameObject.Find("Ammo").transform;
-                    //float step = speed * Time.fixedDeltaTime;
-                    //if (Vector3.Distance(transform.position, ammo.position) > 0.5f)
-                    //{
-                    //    transform.position = Vector3.MoveTowards(new Vector3(0,transform.position.y,transform.position.z), new Vector3(0,ammo.position.y,ammo.position.z), step);
-                    Debug.Log("SearchAmmo");
-                    //}
-
-                    //if (Vector3.Distance(transform.position, ammo.position) <= 0.5f)
-                    //{
-                    //    Debug.Log("ammo");
-                    //    stats.GainAmmo();
-
-                    //}
-                }
                 break;
         }
         if (timeNextMove < 0)
