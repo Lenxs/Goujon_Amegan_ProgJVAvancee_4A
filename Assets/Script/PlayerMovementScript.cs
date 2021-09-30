@@ -10,7 +10,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     //Horizontal movement
     [SerializeField]
-    private float speed;
+    private float speed,dashSpeed;
     [SerializeField] AudioSource source;
     [SerializeField] AudioClip jump;
 
@@ -27,7 +27,7 @@ public class PlayerMovementScript : MonoBehaviour
 
     //Input
     [SerializeField]
-    private string inputY;
+    private string inputY,dash;
     [SerializeField]
     private string inputX;
 
@@ -111,7 +111,17 @@ public class PlayerMovementScript : MonoBehaviour
         }
 
         //dash
-        
+        //if (Input.GetButtonDown(dash))
+        //{
+        //    if(Input.GetAxis(inputX) > 0)
+        //    {
+        //        move += Vector3.forward * dashSpeed;
+        //    }
+        //    if (Input.GetAxis(inputX) < 0)
+        //    {
+        //        move += Vector3.back * dashSpeed;
+        //    }
+        //}
 
         //Gravity
         if (controller.isGrounded == false)

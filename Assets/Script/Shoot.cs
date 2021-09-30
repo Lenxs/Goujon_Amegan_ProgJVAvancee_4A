@@ -56,7 +56,10 @@ public class Shoot : MonoBehaviour
         
         canShoot = false;
         GameObject bullet = Instantiate(bulletPrefab, spawnBullet.position, Quaternion.identity);
-        
+        if (movementScript.GetFlip() == true)
+        {
+            bullet.transform.eulerAngles = new Vector3(spawnBullet.position.x, 180, spawnBullet.position.z);
+        }
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.velocity = transform.forward * speedBullet;
         stats.LostAmmo();

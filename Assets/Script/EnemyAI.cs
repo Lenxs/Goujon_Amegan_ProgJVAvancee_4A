@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] PlayerStats stats;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform spawnBullet;
-    //[SerializeField] NavMeshAgent agent;
+    [SerializeField] NavMeshAgent agent;
     Rigidbody rb;
     bool isGrounded;
     bool ballProche;
@@ -21,13 +21,13 @@ public class EnemyAI : MonoBehaviour
 
     private void Start()
     {
-        target = GameObject.Find("P1").transform;
+       // target = GameObject.Find("P1").transform;
         rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        //agent.SetDestination(target.position);
+        agent.SetDestination(target.position);
         ballProche = Physics.CheckSphere(transform.position, checkDistanceToDodge, layerToDodge);//verifie ball dans un rayon
         isGrounded = Physics.CheckSphere(feetPos.position, checkGround, whatIsGround);
         if (ballProche && isGrounded==true)

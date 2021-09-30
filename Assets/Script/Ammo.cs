@@ -14,13 +14,27 @@ public class Ammo : MonoBehaviour
     {
         gameManagerInstance = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
-    private void OnCollisionEnter(Collision col)
+    //private void OnCollisionEnter(Collision col)
+    //{
+    //    Debug.Log("col");
+    //    if (((1 << col.gameObject.layer) & PlayerMask.value) > 0)
+    //    {
+    //        Debug.Log("ammo++");
+    //        gameManagerInstance.AmmoGain(col.gameObject);
+    //        Destroy(gameObject);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("no");
+    //    }
+    //}
+
+    private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("col");
-        if (((1 << col.gameObject.layer) & PlayerMask.value) > 0)
+        if (((1 << other.gameObject.layer) & PlayerMask.value) > 0)
         {
             Debug.Log("ammo++");
-            gameManagerInstance.AmmoGain(col.gameObject);
+            gameManagerInstance.AmmoGain(other.gameObject);
             Destroy(gameObject);
         }
     }

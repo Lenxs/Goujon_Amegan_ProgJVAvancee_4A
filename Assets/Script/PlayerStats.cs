@@ -13,6 +13,10 @@ public class PlayerStats : MonoBehaviour
     {
         lifeNumber = maxLife;
     }
+    private void OnEnable()
+    {
+        currentAmmo = 3;
+    }
     public void LostLife()
     {
         lifeNumber = lifeNumber - 1;

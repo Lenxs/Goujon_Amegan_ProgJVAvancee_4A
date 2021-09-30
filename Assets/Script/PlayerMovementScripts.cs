@@ -18,7 +18,6 @@ public class PlayerMovementScripts : MonoBehaviour
     [SerializeField] Transform spawnBullet;
     [SerializeField] public Player Owner;
     [SerializeField] PlayerStats stats;
-    [SerializeField] Animator bowAnim, charAnim;
     float move;
     bool isGrounded;
     bool canShoot =true;
@@ -81,19 +80,9 @@ public class PlayerMovementScripts : MonoBehaviour
         }
         if (Input.GetButtonDown(fire)&& stats.GetAmmo()>0&&canShoot==true)
         {
-            charAnim.SetTrigger("Fire");
-            bowAnim.SetTrigger("Fire");
             StartCoroutine(Shoot());
         }
 
-        if (move != 0)
-        {
-            charAnim.SetBool("Run", true);
-        }
-        else
-        {
-            charAnim.SetBool("Run", false);
-        }
 
         //DASH
         //if (side==0)
@@ -159,6 +148,7 @@ public class PlayerMovementScripts : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, spawnBullet.position, Quaternion.identity);
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.velocity = transform.forward * speedBullet;
+        bulletPrefab.transform.eulerAngles = new Vector3(0, 180, 0);
         stats.LostAmmo();
         yield return new WaitForSeconds(1.5f);
         canShoot = true;

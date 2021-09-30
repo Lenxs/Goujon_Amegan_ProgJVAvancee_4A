@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour
 
         if (((1 << col.gameObject.layer) & OtherMask.value) > 0)
         {
-            Instantiate(ammoPf, this.gameObject.transform.position, Quaternion.identity);
+            Instantiate(ammoPf, this.gameObject.transform.position, this.gameObject.transform.rotation);
             Destroy(gameObject);
         }
         
