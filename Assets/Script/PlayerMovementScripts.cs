@@ -9,9 +9,9 @@ public class PlayerMovementScripts : MonoBehaviour
     [SerializeField] string MoveL = "Left";
     [SerializeField] string Jump = "Jump";
     [SerializeField] float speed = 5f;
-    [SerializeField] float jumpForce = 2.5f;
+    [SerializeField] float jumpForce = 10f;
     [SerializeField] float checkSphere = .3f;
-    [SerializeField] float speedBullet = 7f;
+    [SerializeField] float speedBullet = 15f;
     [SerializeField] Rigidbody rb;
     [SerializeField] Transform feetPos;
     [SerializeField] LayerMask whatIsGround;
@@ -19,22 +19,23 @@ public class PlayerMovementScripts : MonoBehaviour
     [SerializeField] Transform spawnBullet;
     [SerializeField] public Player Owner;
     [SerializeField] PlayerStats stats;
+    [SerializeField] Animator bowAnim, charAnim;
     bool isGrounded;
     bool canShoot =true;
 
-    KeyCode L, R,U;
-    float doubleTapTime;
-    int side;
-    [SerializeField] string dashInput;
+    //KeyCode L, R,L2,R2;
+    //float doubleTapTime;
+    //int side;
+    //[SerializeField] string dashInput;
 
-    [SerializeField] float dashSpeed;
-    [SerializeField] float dashCount;
-    [SerializeField] float startDashCount;
+    //[SerializeField] float dashSpeed;
+    //[SerializeField] float dashCount;
+    //[SerializeField] float startDashCount;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        dashCount = startDashCount;
+        //dashCount = startDashCount;
         checkOwner();
     }
 
@@ -48,6 +49,10 @@ public class PlayerMovementScripts : MonoBehaviour
             Jump = "Jump2";
         }
     }
+    private void OnEnable()
+    {
+        canShoot = true;
+    }
 
     // Update is called once per frame
     void Update()
@@ -59,11 +64,13 @@ public class PlayerMovementScripts : MonoBehaviour
         {
             transform.eulerAngles = new Vector3(0, 0, 0);
             transform.position += Vector3.forward * speed * Time.deltaTime;
+            charAnim.SetBool("Run", true);
         }
         if (Input.GetButton(MoveL))
         {
             transform.eulerAngles = new Vector3(0, 180, 0);
             transform.position += Vector3.back * speed * Time.deltaTime;
+            charAnim.SetBool("Run", true);
         }
         if (Input.GetButtonDown(Jump) && isGrounded==true)
         {
@@ -73,90 +80,67 @@ public class PlayerMovementScripts : MonoBehaviour
         }
         if (Input.GetButtonDown(fire)&& stats.GetAmmo()>0&&canShoot==true)
         {
+            charAnim.SetTrigger("Fire");
+            bowAnim.SetTrigger("Fire");
             StartCoroutine(Shoot());
         }
 
-        if (side==0)
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                if (doubleTapTime > Time.time && L == KeyCode.Q)
-                {
-                    Debug.Log("dash");
-                    side = 1;
-                }
-                else
-                {
-                    doubleTapTime = Time.time + 0.5f;
-                }
-                L = KeyCode.Q;
-            }
 
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                if (doubleTapTime > Time.time && R == KeyCode.D)
-                {
-                    Debug.Log("dash");
-                    side = 2;
-                }
-                else
-                {
-                    doubleTapTime = Time.time + 0.5f;
-                }
-                R = KeyCode.D;
-            }
-            /*if (Input.GetKeyDown(KeyCode.Z))
-            {
-                if (doubleTapTime > Time.time && U == KeyCode.Z)
-                {
-                    Debug.Log("dash Up");
-                    side = 3;
-                }
-                else
-                {
-                    doubleTapTime = Time.time + 0.5f;
-                }
-                U = KeyCode.Z;
-            }*/
+        //DASH
+        //if (side==0)
+        //{
+        //    if (Input.GetButton(MoveL))
+        //    {
+        //        if (doubleTapTime > Time.time && L == KeyCode.Q || L2==KeyCode.LeftArrow)
+        //        {
+        //            Debug.Log("dash");
+        //            side = 1;
+        //        }
+        //        else
+        //        {
+        //            doubleTapTime = Time.time + 0.5f;
+        //        }
+        //        L = KeyCode.Q;
+        //        L2 = KeyCode.LeftArrow;
+        //    }
 
-            //if (isTap)
-            //{
-            //    t1 = Time.time;
-            //    isTap = false;
-            //    if(t1-t2 < 0.2f)
-            //    {
-            //        Debug.Log("dash");
-            //    }
-            //}
-        }
-        else
-        {
-            if (dashCount <= 0)
-            {
-                side = 0;
-                dashCount = startDashCount;
-                rb.velocity = Vector3.zero;
-            }
-            else
-            {
-                dashCount -= Time.deltaTime;
-                if (side == 1)
-                {
-                    rb.velocity = Vector3.back * dashSpeed;
-                }
-                else if (side == 2)
-                {
-                    rb.velocity = Vector3.forward * dashSpeed;
-                }
-                /*else if (side == 3)
-                {
-                    rb.velocity = Vector3.up * dashSpeed;
-                }*/
-            }
+        //    if (Input.GetButton(MoveR))
+        //    {
+        //        if (doubleTapTime > Time.time && R == KeyCode.D|| R2==KeyCode.RightArrow)
+        //        {
+        //            Debug.Log("dash");
+        //            side = 2;
+        //        }
+        //        else
+        //        {
+        //            doubleTapTime = Time.time + 0.5f;
+        //        }
+        //        R = KeyCode.D;
+        //        R2 = KeyCode.RightArrow;
+        //    }
+        //}
+        //else
+        //{
+        //    if (dashCount <= 0)
+        //    {
+        //        side = 0;
+        //        dashCount = startDashCount;
+        //        rb.velocity = Vector3.zero;
+        //    }
+        //    else
+        //    {
+        //        dashCount -= Time.deltaTime;
+        //        if (side == 1)
+        //        {
+        //            rb.velocity = Vector3.back * dashSpeed;
+        //        }
+        //        else if (side == 2)
+        //        {
+        //            rb.velocity = Vector3.forward * dashSpeed;
+        //        }
+        //    }
 
-            
-
-        }
+        //}
 
     }
 

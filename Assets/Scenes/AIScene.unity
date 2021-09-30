@@ -3942,7 +3942,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3145013876203137890}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 2.16
@@ -4130,8 +4130,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3145013876203137892}
     - target: {fileID: 4459852772905137420, guid: f1c21e3d4d781764ba28bcb678837a70, type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 1515412170}
+    - target: {fileID: 4459852772905137420, guid: f1c21e3d4d781764ba28bcb678837a70, type: 3}
+      propertyPath: fireRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459852772905137420, guid: f1c21e3d4d781764ba28bcb678837a70, type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4459852772905137420, guid: f1c21e3d4d781764ba28bcb678837a70, type: 3}
+      propertyPath: spawnBullet
+      value: 
+      objectReference: {fileID: 4459852773816430536}
+    - target: {fileID: 4459852772905137420, guid: f1c21e3d4d781764ba28bcb678837a70, type: 3}
+      propertyPath: speedBullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4459852772905137420, guid: f1c21e3d4d781764ba28bcb678837a70, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 8300410035657633276, guid: 44ecd24ad19252c49a7ff5795eb26473, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f1c21e3d4d781764ba28bcb678837a70, type: 3}
+--- !u!4 &4459852773816430536 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1603775160765862930, guid: f1c21e3d4d781764ba28bcb678837a70, type: 3}
+  m_PrefabInstance: {fileID: 4459852773816430535}
+  m_PrefabAsset: {fileID: 0}
