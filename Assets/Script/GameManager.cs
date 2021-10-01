@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Text endText,ammoP1,ammoP2;
     [SerializeField] Slider lifeP1, lifeP2;
     [SerializeField] GameObject EndGameUI;
+    int i;
 
     private void Start()
     {
@@ -25,8 +26,8 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        ammoP1.text = p1Stats.GetAmmo().ToString() + " / 5";
-        ammoP2.text = p2Stats.GetAmmo().ToString() + " / 5";
+        ammoP1.text = p1Stats.GetAmmo().ToString() + " / 5 Arrow";
+        ammoP2.text = p2Stats.GetAmmo().ToString() + " / 5 Arrow";
         lifeP1.value = p1Stats.GetLife();
         lifeP2.value = p2Stats.GetLife();
     }
@@ -61,9 +62,11 @@ public class GameManager : MonoBehaviour
     IEnumerator ResPlayer(GameObject playerToRespawn)
     {
         playerToRespawn.SetActive(false);
-        yield return new WaitForSeconds(2f);
-        playerToRespawn.SetActive(true);
         Respawn(playerToRespawn);
+        yield return new WaitForSeconds(2f);
+        
+        playerToRespawn.SetActive(true);
+        
     }
 
     public void PlayAgain()
@@ -85,7 +88,8 @@ public class GameManager : MonoBehaviour
 
     void Respawn(GameObject playerToRespawn)
     {
-        int i = Random.Range(0, spawnPoint.Length - 1);
+        i = Random.Range(0, spawnPoint.Length - 1);
         playerToRespawn.transform.position = spawnPoint[i].position;
+       
     }
 }

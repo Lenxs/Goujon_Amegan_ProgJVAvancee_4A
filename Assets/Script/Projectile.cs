@@ -7,37 +7,39 @@ public class Projectile : MonoBehaviour
     [SerializeField] LayerMask PlayerMask,BallMask,OtherMask;
     [SerializeField] GameManager gameManagerInstance;
     [SerializeField] GameObject ammoPf;
-    [SerializeField] Transform belongTo;
-   
+    [SerializeField] AudioSource source;
+    [SerializeField] AudioClip death;
+
 
     private void Start()
     {
         gameManagerInstance = GameObject.Find("GameManager").GetComponent<GameManager>();
+        source= GameObject.Find("GameManager").GetComponent<AudioSource>();
     }
     private void OnCollisionEnter(Collision col)
     {
-        if(belongTo != col.transform)//Verify if we touch the player who fired the projectile
+        if(((1<<col.gameObject.layer)& PlayerMask.value) > 0)
         {
-            if(((1<<col.gameObject.layer)& PlayerMask.value) > 0)
-            {
-                        
-                
-                gameManagerInstance.PlayerDeath(col.gameObject);
-                Destroy(gameObject);
-            }
 
-            if (((1 << col.gameObject.layer) & BallMask.value) > 0)
-            {
-                Destroy(gameObject);
-            }
-
-
-            if (((1 << col.gameObject.layer) & OtherMask.value) > 0)
-            {
-                Instantiate(ammoPf, this.gameObject.transform.position, Quaternion.identity);
-                Destroy(gameObject);
-            }
+            source.clip = death;
+            source.Play();
+            gameManagerInstance.PlayerDeath(col.gameObject);
+            Destroy(gameObject);
         }
+
+        if (((1 << col.gameObject.layer) & BallMask.value) > 0)
+        {
+            Destroy(gameObject);
+        }
+
+
+        if (((1 << col.gameObject.layer) & OtherMask.value) > 0)
+        {
+            Instantiate(ammoPf, this.gameObject.transform.position, this.gameObject.transform.rotation);
+            Destroy(gameObject);
+        }
+        
+
 
     }
 }

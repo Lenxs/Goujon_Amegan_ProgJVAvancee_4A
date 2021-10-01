@@ -15,8 +15,9 @@ public class RandomAI : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform spawnBullet;
     [SerializeField] PlayerStats stats;
+    [SerializeField] float timeNextMove,fireRate;
     bool isGrounded;
-    bool canShoot;
+    bool canShoot = true;
     int randomChoose;
 
 
@@ -24,7 +25,8 @@ public class RandomAI : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        StartCoroutine(RandMove());
+        //StartCoroutine(RandMove());
+        NextMove();
     }
 
     // Update is called once per frame
@@ -33,112 +35,87 @@ public class RandomAI : MonoBehaviour
         isGrounded = Physics.CheckSphere(feetPos.position, checkSphere, whatIsGround);
     }
 
-    private void OnEnable()
+    private void FixedUpdate()
     {
-        StartCoroutine(RandMove());
-    }
+        timeNextMove -= Time.fixedDeltaTime;
 
-    IEnumerator RandMove()
-    {
-        yield return new WaitForSeconds(.2f);
-        randomChoose = Random.Range(1, 5);
-        //Debug.Log(randomChoose);
         switch (randomChoose)
         {
             case 1:
-                MoveL();
-                yield return new WaitForSeconds(3f);
+                //Debug.Log("Move Left");
+                transform.eulerAngles = new Vector3(0, 180, 0);
+                transform.position += Vector3.back * speed * Time.fixedDeltaTime;
+
                 break;
             case 2:
-                MoveR();
-                yield return new WaitForSeconds(3f);
+                //Debug.Log("Move Right");
+                transform.eulerAngles = new Vector3(0, 0, 0);
+                transform.position += Vector3.forward * speed * Time.deltaTime;
                 break;
             case 3:
-                Jump();
+                //Debug.Log("Jump");
+                if (isGrounded == true)
+                {
+                    rb.velocity = Vector3.up * jumpForce;
+                    isGrounded = false;
+                }
                 break;
             case 4:
-                Fire();
+                //Debug.Log("Shoot");
+                if (stats.GetAmmo() > 0 && canShoot == true)
+                {
+                    StartCoroutine(Shoot());
+                }
                 break;
         }
-        //RandomChoose();
+        if (timeNextMove < 0)
+        {
+            NextMove();
+        }
     }
-    void RandomChoose()
+
+    
+
+    private void OnEnable()
+    {
+       NextMove();
+    }
+
+
+    void NextMove()
     {
         randomChoose = Random.Range(1, 5);
-        //Debug.Log(randomChoose);
-        switch (randomChoose)
-        {
-            case 1:MoveL();
-                break;
-            case 2:MoveR();
-                break;
-            case 3:Jump();
-                break;
-            case 4:Fire();
-                break;
-        }
+        timeNextMove = Random.Range(2.0f, 5.5f);
     }
 
-    void MoveL()
-    {
-        transform.eulerAngles = new Vector3(0, 0, 0);
-        transform.position += Vector3.back * speed * Time.deltaTime;
-        StartCoroutine(RandMove());
-    }
-
-    void MoveR()
-    {
-        transform.eulerAngles = new Vector3(0, 180, 0);
-        transform.position += Vector3.forward * speed * Time.deltaTime;
-        StartCoroutine(RandMove());
-    }
-
-    void Jump()
-    {
-        if (isGrounded == true)
-        {
-            rb.velocity = Vector3.up * jumpForce;
-            isGrounded = false;
-        }
-        StartCoroutine(RandMove());
-    }
-
-    void Fire()
-    {
-        
-        if (stats.GetAmmo() > 0&& canShoot==true)
-        {
-            StartCoroutine(Shoot());
-        }
-        else
-        {
-            SearchAmmo();
-        }
-       StartCoroutine(RandMove());
-    }
+   
 
     void SearchAmmo()
     {
         Transform ammo = GameObject.Find("Ammo").transform;
-        Vector3.MoveTowards(transform.position, ammo.position, 30f);
+        float step = speed * Time.fixedDeltaTime;
+        if (Vector3.Distance(transform.position, ammo.position) > 0.5f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, ammo.position, step);
+
+        }
+        
         if (Vector3.Distance(transform.position, ammo.position) < 0.5f)
         {
             Debug.Log("ammo");
             stats.GainAmmo();
-            StartCoroutine(RandMove());
+           
         }
     }
     IEnumerator Shoot()
     {
         canShoot = false;
         GameObject bullet = Instantiate(bulletPrefab, spawnBullet.position, Quaternion.identity);
-        bullet.SetActive(true);
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         bulletRb.velocity = transform.forward * speedBullet;
         stats.LostAmmo();
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(fireRate);
         canShoot = true;
         Debug.Log("Bang");
-        StartCoroutine(RandMove());
     }
 }
