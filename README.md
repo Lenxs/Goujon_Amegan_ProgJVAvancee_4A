@@ -17,3 +17,6 @@ Pour les textes de l'interface utilisateur nous avons utilisé le paquet TextMes
 https://docs.unity3d.com/Manual/com.unity.textmeshpro.html
 
 Voici la liste des liens pour télécharger les sons utilisé dans le projet:
+https://freesound.org/people/brendan89/sounds/321552/
+https://freesound.org/people/Lefty_Studios/sounds/369515/
+https://freesound.org/people/Jofae/sounds/364929/
